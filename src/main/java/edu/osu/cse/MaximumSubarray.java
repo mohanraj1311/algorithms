@@ -32,18 +32,20 @@ public class MaximumSubarray {
 		int eIdx = 0;
 		for(int i=0; i<inp.length;i++) {
 			maxEndingHere = Math.max(0, maxEndingHere + inp[i]);
-			if(maxEndingHere + inp[i] > maxSoFar) {
-				eIdx = i;
-			}
-			if(maxEndingHere + inp[i] == 0) {
-				sIdx = i + 1;
-				eIdx = sIdx;
-			}
-			maxSoFar = Math.max(maxEndingHere, maxSoFar);
-			if(maxSoFar > maxEndingHere) {
-				eIdx = i;
+			if(maxEndingHere == 0) {
 				sIdx = i;
 			}
+			if(maxEndingHere > maxSoFar) {
+				eIdx = i;
+			}
+			maxSoFar = Math.max(maxEndingHere, maxSoFar);
+			
+		}
+		if(sIdx + 1 >= inp.length) {
+			sIdx = 0;
+			eIdx = 0;
+		} else {
+			sIdx += 1;
 		}
 		return new Result(maxSoFar, sIdx, eIdx);
 	}
