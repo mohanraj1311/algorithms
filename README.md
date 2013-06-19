@@ -1,4 +1,3 @@
 algorithms
 ==========
 
-interview preparation
