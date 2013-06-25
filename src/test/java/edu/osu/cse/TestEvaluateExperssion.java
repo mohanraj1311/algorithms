@@ -40,4 +40,12 @@ public class TestEvaluateExperssion {
 		assertEquals(true, EvaluateExpression.evaluatePostfixExpression(""));
 		assertEquals(false, EvaluateExpression.evaluatePostfixExpression(null));
 	}
+	
+	@Test
+	public void testExprConversion() {
+		assertEquals("(ab+)", EvaluateExpression.infixToPostfix("(a+b)"));
+		assertEquals("(((cd+)a-)b+)", EvaluateExpression.infixToPostfix("(((c+d)-a)+b)"));
+		assertEquals("((cd+)(ab+)-)", EvaluateExpression.infixToPostfix("((c+d)-(a+b))"));
+		assertEquals(null, EvaluateExpression.infixToPostfix("(c+d)-(a+b))"));
+	}
 }
