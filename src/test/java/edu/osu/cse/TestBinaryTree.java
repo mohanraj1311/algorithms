@@ -22,5 +22,32 @@ public class TestBinaryTree {
 		assertEquals(4, bst.getDepth(bst.root));
 		assertEquals(2, bst.getMinDepth(bst.root));
 		assertEquals(2, bst.getMinDepthBFS(bst.root));
+	
+		System.out.print("\nInorder: ");
+		bst.inorder(bst.root);
+		System.out.print("\nPreorder: ");
+		bst.preorder(bst.root);
+		System.out.print("\nPostorder: ");
+		bst.postorder(bst.root);
+		
+		System.out.println("\n\nAll paths from root to leaves..");
+		bst.printAllPaths(bst.root);
+		
+		System.out.println("\nisBST? " + bst.isBST(bst.root));
+		System.out.println("isBST? " + bst.isBST2(bst.root));
+		
+		int n = 7;
+		System.out.println("\n" + n + "th largest element is " + bst.findKthLargest(bst.root, n));
+		assertEquals(bst.findKthSmallest(bst.root, 6), bst.findKthLargest(bst.root, 7));
+		assertEquals(bst.findKthSmallest(bst.root, 7), bst.findKthLargest(bst.root, 6));
+		assertEquals(bst.findKthSmallest(bst.root, 3), bst.findKthLargest(bst.root, 10));
+		assertEquals(bst.findKthSmallest(bst.root, 10), bst.findKthLargest(bst.root, 3));
+		assertEquals(bst.findKthSmallest(bst.root, 12), bst.findKthLargest(bst.root, 1));
+		assertEquals(bst.findKthSmallest(bst.root, 1), bst.findKthLargest(bst.root, 12));
+		
+		assertEquals(false, bst.find(bst.root, 100));
+		assertEquals(false, bst.find(bst.root, 0));
+		assertEquals(true, bst.find(bst.root, 38));
+		assertEquals(true, bst.find(bst.root, 89));
 	}
 }
