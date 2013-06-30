@@ -17,6 +17,15 @@ public class BinarySearchTree {
 			this.left = null;
 			this.right = null;
 		}
+		
+		@Override
+		public String toString() {
+			String out = "";
+			out += val;
+			out += " [left:" + left;
+			out += "] [right:" + right + "]";
+			return out;
+		}
 	}
 
 	public BinarySearchTree() {
@@ -25,7 +34,7 @@ public class BinarySearchTree {
 
 	public int getDepth(Node r) {
 		if (r == null) {
-			return -1;
+			return 0;
 		}
 
 		return Math.max(getDepth(r.left), getDepth(r.right)) + 1;
@@ -64,6 +73,57 @@ public class BinarySearchTree {
 			if (node.equals(dummy)) {
 				queue.add(node);
 			}
+		}
+	}
+
+	// this solution is clean but not efficient. The time complexity is O(n^2) 
+	// since get height function traverses the same subtree multiple times.
+	public boolean isBalanced(Node r) {
+		if(r == null) {
+			return true;
+		}
+		
+		int leftHeight = getDepth(r.left);
+		int rightHeight = getDepth(r.right);
+		if(Math.abs(leftHeight-rightHeight) > 1) {
+			return false;
+		} else {
+			return isBalanced(r.left) && isBalanced(r.right);
+		}
+	}
+	
+	// this solution is more efficient than the previous one. In this the height
+	// function also checks for tree balance. If the tree is not balanced the 
+	// height function returns -1 else the proper height. The time complexity
+	// of this function is O(N) since all elements are touched in the tree and
+	// space complexity is O(log N) which is the space occupied by the stack
+	public boolean isBalanced2(Node r) {
+		if(checkHeight(r) >= 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	private int checkHeight(Node r) {
+		if(r == null) {
+			return 0;
+		}
+		
+		int leftHeight = checkHeight(r.left);
+		if(leftHeight == -1) {
+			return -1;
+		}
+		
+		int rightHeight = checkHeight(r.right);
+		if(rightHeight == -1) {
+			return -1;
+		}
+		
+		if(Math.abs(leftHeight - rightHeight) > 1) {
+			return -1;
+		} else {
+			return Math.max(checkHeight(r.left), checkHeight(r.right)) + 1;
 		}
 	}
 
