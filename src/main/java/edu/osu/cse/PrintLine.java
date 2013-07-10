@@ -3,7 +3,9 @@ package edu.osu.cse;
 /**
  * Display an integer array of [1, 2, 3, 4, 5, 6, 7] in the following format
  * 
- * 1 4 6 2 5 7 3
+ * 1 4 6
+ * 2 5 7
+ * 3 
  * 
  * The method signature takes in an array of integers and the number of columns.
  * In the above example, noOfCols = 3. The columns should contain equal number
@@ -46,8 +48,8 @@ public class PrintLine {
 		if (numResidue > 0) {
 			System.out.print(inp[i] + " ");
 			numResidue--;
-			jump = (jump + numRows) + 1;
 			while (numResidue > 0) {
+				jump = (jump + numRows) + 1;
 				System.out.print(inp[i + jump] + " ");
 				numResidue--;
 			}
@@ -57,6 +59,6 @@ public class PrintLine {
 	}
 
 	public static void main(String[] args) {
-		printLine(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }, 3);
+		printLine(new int[] { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }, 4);
 	}
 }

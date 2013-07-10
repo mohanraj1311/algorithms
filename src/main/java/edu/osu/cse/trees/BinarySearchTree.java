@@ -1,7 +1,10 @@
 package edu.osu.cse.trees;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
 public class BinarySearchTree {
 
@@ -542,12 +545,12 @@ public class BinarySearchTree {
 			return -1;
 		}
 
-		if(p == null || q == null) {
+		if (p == null || q == null) {
 			return -1;
 		}
-		
 
-		// if r contains both p and q is contained in either left or right subtree
+		// if r contains both p and q is contained in either left or right
+		// subtree
 		// then we should r. else if p or q exists on one side of the tree
 		// then we should consider only the side which contains both p and q
 		if ((contains(r.left, p) && contains(r.right, q))
@@ -556,13 +559,13 @@ public class BinarySearchTree {
 		} else {
 			int leftAnc = commonAncestor(r.left, p, q);
 			// left subtree contains both p and q
-			if(leftAnc != -1) {
+			if (leftAnc != -1) {
 				return leftAnc;
 			}
-			
+
 			int rightAnc = commonAncestor(r.right, p, q);
 			// right subtree contains both p and q
-			if(rightAnc != -1) {
+			if (rightAnc != -1) {
 				return rightAnc;
 			}
 		}
@@ -585,29 +588,112 @@ public class BinarySearchTree {
 		if (r == p) {
 			return true;
 		}
-		
+
 		return contains(r.left, p) || contains(r.right, p);
 	}
-	
+
 	public void printAllPathAddUptoSum(Node r, int sum) {
-		if(r == null) {
+		if (r == null) {
 			return;
 		}
-		
+
 		printAllPathAddUptoSumImpl(r, sum, "");
 	}
 
 	private void printAllPathAddUptoSumImpl(Node r, int sum, String path) {
-		
-		if(r == null) {
+
+		if (r == null) {
 			return;
 		}
 		path = path + "/" + r.val;
-		if(sum - r.val == 0) {
+		if (sum - r.val == 0) {
 			System.out.println(path);
 		}
-		
+
 		printAllPathAddUptoSumImpl(r.left, sum - r.val, path);
 		printAllPathAddUptoSumImpl(r.right, sum - r.val, path);
+	}
+
+	public String flatten(Node r) {
+		String out = "";
+		if (r == null) {
+			return out;
+		}
+
+		return "(" + flattenImpl(r, out) + ")";
+	}
+
+	private String flattenImpl(Node r, String out) {
+		if (r == null) {
+			return out + "x";
+		}
+		out += r.val;
+		out = flattenImpl(r.left, out + "(");
+		out += ")";
+		out = flattenImpl(r.right, out + "(");
+		out += ")";
+		return out;
+	}
+
+	// NOTE: The value of each node should be one character. This won't work if
+	// the value is greater a character (ex. '10')
+	public Node deflatten(String inp) {
+		if (inp == null || inp.isEmpty() || inp.length() < 3) {
+			return null;
+		}
+
+		return defalttenImpl(inp);
+	}
+
+	private Node defalttenImpl(String inp) {
+		Stack<Object> stack = new Stack<Object>();
+		List<Object> nodes = new ArrayList<Object>();
+
+		for (char c : inp.toCharArray()) {
+			if (c == '(') {
+				stack.push("(");
+			} else if (c == ')') {
+				if (!stack.isEmpty()) {
+					Object o = stack.pop();
+					// add all elements until "(" to list. if the list size is 1
+					// then its leaf (null) else the size should be 3 in which 
+					// case the last element in the list will be the root and other
+					// two nodes will be its children
+					while (!(o instanceof String)) {
+						nodes.add(o);
+						o = stack.pop();
+					}
+
+					Node n = null;
+					if (nodes.size() == 1) {
+						n = (Node) nodes.get(0);
+					} else {
+						// reverse order since we pop off the stack
+						Node root = (Node) nodes.get(2);
+						Node left = (Node) nodes.get(1);
+						Node right = (Node) nodes.get(0);
+
+						root.left = left;
+						root.right = right;
+						n = root;
+					}
+					nodes.clear();
+					stack.push(n);
+				} else {
+					return null;
+				}
+			} else {
+				// if 'x' then push null else its integer equivalent. integers 
+				// that spans more than 1 char long will not work.
+				if (c != 'x') {
+					stack.push(new Node(Integer.valueOf("" + c)));
+				} else {
+					stack.push(null);
+				}
+			}
+		}
+
+		// root will be the last element in the stack
+		return (Node) stack.pop();
 	}
 }

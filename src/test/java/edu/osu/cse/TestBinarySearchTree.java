@@ -137,4 +137,13 @@ public class TestBinarySearchTree {
 		assertEquals(6, bst.commonAncestor(bst.root, bst.find2(bst.root, 3), bst.find2(bst.root, 10)));
 		assertEquals(6, bst.commonAncestor(bst.root, bst.find2(bst.root, 10), bst.find2(bst.root, 3)));
 	}
+	
+	@Test
+	public void testFlatten() {
+		BinarySearchTree bst = new BinarySearchTree();
+		bst.addValues(6,3,2,1,4,5,7,8,9);
+		System.out.println(bst.flatten(bst.root));
+		Node r = bst.deflatten(bst.flatten(bst.root));
+		assertEquals(bst.flatten(r), bst.flatten(bst.root));
+	}
 }
