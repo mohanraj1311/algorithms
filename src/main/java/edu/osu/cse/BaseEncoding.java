@@ -11,9 +11,9 @@ public class BaseEncoding {
 	// - If the total number of characters is not divisible by 3 then do the
 	// following
 	// -- if there is only one leftover byte then add 4 bits to make it 12 bits
-	// long. Append '=' to indicate one left over byte.
+	// long. Append '==' to indicate one left over byte.
 	// -- if there are 2 leftover bytes then add 2 bits to make it to 18 bits
-	// long. Append '==' to indicate 2 left over bytes.
+	// long. Append '=' to indicate 2 left over bytes.
 	static String base64Encode(String input) {
 		if (input == null) {
 			return null;
